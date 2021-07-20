@@ -8,6 +8,7 @@ import Navbar from './Navbar';
 
 const App = () => {
   //change from Anshulli
+  //second change
   const [cartItems, setCartItems] = useState([]);
 
   const handleAddCartItem = (item) => {
