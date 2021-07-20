@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { Route, Redirect, BrowserRouter } from "react-router-dom";
 import HomeScreen from './Screens/HomeScreen';
@@ -7,14 +7,25 @@ import Navbar from './Navbar';
 
 
 const App = () => {
+  const [cartItems, setCartItems] = useState([]);
+
+  const handleAddCartItem = (item) => {
+    setCartItems([...cartItems, item])
+  }
+
+  const handleRemoveCartItem = (id) => {
+    const filteredCartItems = cartItems.filter(item => item._id !== id);
+    setCartItems(filteredCartItems);
+  }
+
   return (
     <>
-    <BrowserRouter>
-    <Navbar/>
-    <Route path="/cartScreen/:id" component={CartScreen} />
-    <Route path="/" exact={true} component={HomeScreen} />
-    <Redirect to="/"/>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Navbar />
+        <Route path="/cartScreen" render={() => <CartScreen items={cartItems} onRemoveItem={handleRemoveCartItem} />} />
+        <Route path="/" exact={true} render={() => <HomeScreen cartItems={cartItems} onAddCartItem={handleAddCartItem} />} />
+        <Redirect to="/" />
+      </BrowserRouter>
     </>
   )
 };
